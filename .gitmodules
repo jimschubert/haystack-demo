@@ -1,0 +1,3 @@
+[submodule "haystack-docker"]
+	path = haystack-docker
+	url = https://github.com/ExpediaDotCom/haystack-docker/
