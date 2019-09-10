@@ -51,6 +51,10 @@ HAYSTACK_AGENT_HOST=localhost
   - Default: offset=0,limit=20
 * http://localhost:8888/v1/products?offset=0&limit=1
   - "Special" case, queries 2 records at a time, 10 times (serial database calls)
+* http://localhost:8888/v1/other
+  - Makes a request to the `frontend` API from official Haystack Docker demo
+  
+Other queries are available in the [Postman collection](./postman/Haystack%20Demo.postman_collection.json).
 
 ## Inspecting
 
@@ -68,3 +72,7 @@ curl -i -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "TRA
 ## Haystack
 
 After starting up the Haystack Infrastructure/Demo and this repository demo, load Haystack's UI at http://localhost:8080/. 
+
+Services will display in the UI only after requests are made.
+
+Services will display in the service graph if they are connected to at least one other service (you must hit `/v1/other` for this repo's service to display in the graph).
