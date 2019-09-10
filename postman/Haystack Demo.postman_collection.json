@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "68f8163e-0509-4a37-991c-5699c7dd7056",
+		"name": "Haystack Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "config",
+			"item": [
+				{
+					"name": "Set allowed indexes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"fields\": [{\n            \"name\": \"error\",\n            \"type\": \"string\",\n            \"enabled\": true\n        }, {\n            \"name\": \"http-status\",\n            \"type\": \"string\",\n            \"aliases\": [ \"http.status_code\" ],\n            \"enabled\": true\n        }]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/reload-configs/whitelist-index-fields/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"reload-configs",
+								"whitelist-index-fields",
+								"1"
+							]
+						},
+						"description": "This configures the elasticsearch indexes allowed for Haystack trends analysis."
+					},
+					"response": []
+				},
+				{
+					"name": "health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9200/_cat/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"_cat",
+								"health"
+							]
+						},
+						"description": "Check elasticsearch health\n\nsee [docs](https://www.elastic.co/guide/en/elasticsearch/reference/6.0/cat-health.html)"
+					},
+					"response": []
+				},
+				{
+					"name": "indices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9200/_cat/indices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"_cat",
+								"indices"
+							]
+						},
+						"description": "list indices\n\nsee [docs](https://www.elastic.co/guide/en/elasticsearch/reference/6.0/cat-indices.html)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "level-1 API (frontend)",
+			"item": [
+				{
+					"name": "hello",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9090/hello",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"hello"
+							]
+						},
+						"description": "Hits a fake endpoint on the frontend service"
+					},
+					"response": []
+				}
+			],
+			"description": "An edge service, called \"frontend\" in Haystack's official demo.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6b84f361-baea-4a58-afb0-4a838eaeb61f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "35da1ddf-2119-4137-9943-b5ab90bd35c3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "Product List (normal)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8888/v1/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"v1",
+								"products"
+							]
+						},
+						"description": "An example of a normal operatiom."
+					},
+					"response": []
+				},
+				{
+					"name": "Product List (buggy)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8888/v1/products?offset=0&limit=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						},
+						"description": "An example of a buggy API call."
+					},
+					"response": []
+				},
+				{
+					"name": "Product List (client issue)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8888/v1/products?offset=0&limit=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						},
+						"description": "An example of maybe a client calling with invalid headers."
+					},
+					"response": []
+				},
+				{
+					"name": "Call other service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e89dd573-b4ca-46d9-9248-322389d86f8c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/v1/other",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"v1",
+								"other"
+							]
+						},
+						"description": "Call the other service"
+					},
+					"response": []
+				}
+			],
+			"description": "A sample \"products\" API",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fe8c556b-afae-414e-983a-ff0904fd7c78",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "48e65e34-8055-4a3c-ad93-cabfd10201c5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

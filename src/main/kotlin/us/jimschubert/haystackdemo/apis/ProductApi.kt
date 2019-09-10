@@ -7,6 +7,7 @@ import io.opentracing.tag.Tags
 import io.opentracing.util.GlobalTracer
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -88,14 +89,24 @@ class ProductApi(val productService: ProductService, private val tracer: Tracer)
         produces = ["application/json"],
         method = [RequestMethod.GET]
     )
-    fun callOther(): ResponseEntity<Int> {
+    fun callOther(): ResponseEntity<String> {
         val otherService = try {
             System.getenv("OTHER_SERVICE")
         } catch(e: Throwable) {
             "http://frontend:9090/hello"
         }
-        client.newCall(Request.Builder().get().url(otherService).build()).execute()
-        return ResponseEntity(1, HttpStatus.OK)
+        val response = client.newCall(
+            Request.Builder()
+                .get()
+                .url(otherService)
+                .build())
+                .execute()
+
+        val result = response.use { r ->
+             r.body()?.string()
+        }
+
+        return ResponseEntity(result, HttpStatus.OK)
     }
 }
 

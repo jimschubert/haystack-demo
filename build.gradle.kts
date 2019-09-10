@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.1.7.RELEASE"
+	id("org.springframework.boot") version "2.1.1.RELEASE"
 	id("io.spring.dependency-management") version "1.0.7.RELEASE"
 	kotlin("jvm") version "1.2.71"
 	kotlin("plugin.jpa") version "1.2.71"
@@ -39,12 +39,16 @@ dependencies {
 	implementation("org.jetbrains.exposed:spring-transaction:0.17.1")
 	implementation("com.h2database:h2:1.4.199")
 
-	implementation("com.squareup.okhttp3:okhttp:3.10.0")
-	implementation("io.opentracing.contrib:opentracing-okhttp3:2.0.1")
+	implementation("com.squareup.okhttp3:okhttp:3.6.0")
+	implementation("io.opentracing.contrib:opentracing-okhttp3:0.1.0")
 
-	implementation("io.micrometer:micrometer-registry-jmx")
+	implementation("io.micrometer:micrometer-registry-jmx:1.1.1")
 	implementation("io.opentracing.contrib:opentracing-jdbc:0.0.12")
-	implementation("com.expedia.www:opentracing-spring-haystack-starter:0.2.7")
+	implementation("com.expedia.www:opentracing-spring-haystack-web-starter:0.2.7")
+
+	implementation("io.opentracing:opentracing-api:0.31.0")
+	implementation("io.opentracing:opentracing-noop:0.31.0")
+	implementation("io.opentracing:opentracing-util:0.31.0")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
